@@ -1,0 +1,284 @@
+@import url('https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&family=Calistoga&family=Cinzel:wght@400..900&family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=Federo&family=Forum&family=Linden+Hill:ital@0;1&family=Luckiest+Guy&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+:root{
+    --mainColor: #FFFAF1;
+    --secondColor: #0E366D;
+    --hover: #cee2fe;
+    --thirdColor: #850E35;
+    --forthColor: #A60E13;
+    --fifthColor: #F2D0CD;
+    --softPink: #ffecea;
+    --white: #ffffff;
+    --hint: #4c5f6688;
+}
+
+/* BrownieGallery.css */
+.brownie-detail-container {
+  display: flex;
+  padding: 64px 64px;
+  gap: 32px;
+  justify-content: start;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.brownie-left-column {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.brownie-left-column .thumb {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 10px;
+  cursor: pointer;
+  opacity: 0.6;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.brownie-left-column .thumb.active,
+.brownie-left-column .thumb:hover {
+  opacity: 1;
+  border-color: var(--forthColor);
+}
+
+.brownie-right-column {
+  position: relative;
+  max-width: 600px;
+  flex: 1;
+}
+
+.main-image-wrapper {
+  position: relative;
+}
+
+.main-image {
+  width: 100%;
+  height: 700px;
+  border-radius: 20px;
+  border: 1px solid var(--forthColor);
+  object-fit: cover;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: white;
+  color: var(--forthColor);
+  border: none;
+  font-size: 1.5rem;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-btn:hover {
+  background-color: var(--hover);
+  transform: translateY(-50%) scale(1.1);
+}
+
+
+.nav-btn.left {
+  left: 10px;
+}
+
+.nav-btn.right {
+  right: 10px;
+}
+
+.detail-content {
+  max-width: 450px;
+  padding-left: 40px;
+}
+
+.detail-content h2 {
+  font-size: 25px;
+  font-family: 'Open Sans', sans-serif;
+  color: var(--forthColor);
+}
+
+.detail-content .desc {
+  font-family: 'Open Sans', sans-serif;
+  color: rgba(0, 0, 0, 0.613);
+  margin-top: 20px;
+  font-size: 15px;
+  white-space: pre-line;
+}
+
+.content-price {
+    display: flex;
+    flex-direction: column;
+    margin-top: 25px;
+}
+
+.price-pair {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.container-price {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    /* margin-top: 30px; */
+    background-color: var(--fifthColor);
+    padding: 6px 12px;
+    border-radius: 20px;
+    width: fit-content;
+}
+
+.price-label {
+    color: var(--forthColor);
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.price-value {
+  color: var(--forthColor);
+  font-size: 16px;
+}
+
+/* .dropdown {
+  border: 1px solid black;
+  border-radius: 20px;
+  padding: 10px 10px;
+  margin-top: 20px;
+  font-size: 12px;
+} */
+
+.container-also-like {
+    background-color: var(--softPink);
+}
+
+/* Media Queries */
+@media (max-width: 1280px) {
+  .brownie-detail-container {
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+
+  .brownie-right-column {
+    order: 1; /* gambar utama di atas */
+    max-width: 100%;
+  }
+
+  .brownie-left-column {
+    order: 2; /* thumbnail pindah ke bawah */
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .brownie-left-column .thumb {
+    width: 120px;
+    height: 120px;
+  }
+
+  .main-image {
+    height: auto; /* biar responsif */
+    max-height: 800px;
+    width: 900px;
+  }
+
+  .detail-content {
+    order: 3;
+    padding: 20px;
+    max-width: 900px;
+  }
+
+  .detail-content .desc {
+    font-size: 23px;
+  }
+
+  .detail-content h2 {
+    font-size: 38px;
+  }
+
+  .price-value {
+    font-size: 25px;
+  }
+
+  .price-label {
+    font-size: 25px;
+  }
+
+  .our-best-seller h1 {
+    font-size: 28px;
+  }
+
+  .best-seller h3 {
+    font-size: 22px;
+  }
+
+  .best-seller .desc {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .brownie-detail-container {
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+
+  .brownie-right-column {
+    order: 1; /* gambar utama di atas */
+    max-width: 100%;
+  }
+
+  .brownie-left-column {
+    order: 2; /* thumbnail pindah ke bawah */
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .brownie-left-column .thumb {
+    width: 80px;
+    height: 80px;
+  }
+
+  .main-image {
+    height: auto; /* biar responsif */
+    max-height: 400px;
+    width: 500px;
+  }
+
+  .detail-content {
+    order: 3;
+    padding: 20px;
+  }
+
+  .detail-content .desc {
+    font-size: 18px;
+  }
+
+  .detail-content h2 {
+    font-size: 30px;
+  }
+
+  .price-value {
+    font-size: 15px;
+  }
+
+  .price-label {
+    font-size: 15px;
+  }
+}

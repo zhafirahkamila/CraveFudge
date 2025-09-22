@@ -1,0 +1,243 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Calistoga&display=swap');
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    background-color: var(--mainColor);
+    /* font-family: Calistoga; */
+}
+
+:root{
+    --mainColor: #FFFAF1;
+    --secondColor: #0E366D;
+    --hover: #cee2fe;
+    --thirdColor: #850E35;
+    --forthColor: #A60E13;
+    --fifthColor: #F2D0CD;
+    --white: #ffffff;
+}
+
+.navbar {
+    padding: 20px 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar .logo {
+    width: 100px;
+    height: 60px;
+}
+
+.navbar-menu {
+    display: flex;
+    list-style: none;
+    gap: 60px;
+    color: var(--secondColor);
+    font-size: 18px;
+    font-weight: 600;
+    font-family: Calistoga;
+}
+
+.navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.sign-btn {
+    background: transparent;
+    color: var(--secondColor);
+    padding: 5px;
+    margin: 0;
+    width: 90px;
+    outline: none;
+    border: 1px solid var(--secondColor);
+    border-radius: 50px;
+    color: var(--secondColor);
+    font-size: 16px;
+    font-weight: 500;
+    font-family: Calistoga;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.sign-btn.hide {
+  display: none;
+}
+
+
+.sign-btn:hover {
+    background-color: var(--hover);
+}
+
+.sign-btn-responsive {
+    background: var(--hover);
+    padding: 5px;
+    margin: 0;
+    width: 90%;
+    outline: none;
+    border: 1px solid var(--secondColor);
+    border-radius: 50px;
+    color: var(--secondColor);
+    font-size: 16px;
+    font-weight: 300;
+    font-family: Calistoga;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: grey;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.navbar .active {
+    padding-bottom: 2px;
+    border-bottom: 2px solid var(--thirdColor);
+}
+
+.navbar li {
+    cursor: pointer;
+}
+
+.navbar-cart {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-cart .btn{
+    position: relative;
+}
+
+.navbar-cart .dot {
+    position: absolute;
+    min-width: 10px;
+    min-height: 10px;
+    background-color: #A60E13;
+    border-radius: 5px;
+    top: -8px;
+    right: -8px;
+}
+
+/* Responsive Menu Drawer */
+.responsive-menu {
+  position: absolute;
+  top: 100px; /* jarak dari navbar */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--forthColor);
+  padding: 2rem;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: center;
+  min-width: 200px;
+  width: 90%;
+  box-sizing: border-box;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 9999;
+}
+
+.responsive-menu.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.responsive-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+}
+
+.responsive-logo {
+  height: 40px;
+  cursor: pointer;
+}
+
+.close-icon {
+  font-size: 1.8rem;
+  cursor: pointer;
+  color: white;
+  position: absolute;
+  top: 15px;
+  right: 20px;
+}
+
+.responsive-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* menu di tengah secara vertikal */
+  align-items: center;
+  gap: 20px;
+}
+
+.responsive-menu li {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: color 0.2s ease;
+}
+
+/* Media Queries */
+@media (max-width: 1024px) {
+  .navbar {
+    padding: 20px 20px;
+  }
+}
+
+@media (max-width: 769px) {
+  .navbar-menu {
+    display: none;
+  }
+
+  .hamburger {
+    display: block;
+    padding-top: 8px;
+    justify-self: start;
+  }
+
+  .sign-btn {
+    display: none;
+  }
+
+  .navbar {
+    padding: 20px 20px;
+    display: grid;
+    grid-template-columns: auto 1fr auto; /* kiri - tengah - kanan */
+    align-items: center;
+  }
+
+  .navbar .logo {
+    justify-self: center;
+    width: 90px;
+    height: 55px;
+  }
+
+  .navbar-right {
+    justify-self: end;
+    gap: 15px;
+  }
+}
+
+@media (min-width: 769px) {
+  .hamburger {
+    display: none;
+  }
+}
