@@ -78,10 +78,10 @@
 }
 
 /* Media Queries */
-@media (max-width: 1024px) {
+@media (max-width: 1124px) {
   .about-us-section {
-    flex-direction: column; /* susun vertikal */
-    height: auto; /* biar fleksibel */
+    flex-direction: column; 
+    height: auto;
     gap: 30px;
     margin-top: 100px;
     padding: 20px;
@@ -90,12 +90,11 @@
   .img-container {
     transform: rotate(-6deg);
     margin: -100px auto;
-    /* margin-top: -120px; */
   }
 
   .img-container img {
     width: 100%;
-    max-width: 300px; /* batas lebar */
+    max-width: 300px; 
     height: 320px;
   }
 

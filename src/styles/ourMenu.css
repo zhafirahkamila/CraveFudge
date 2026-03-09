@@ -92,11 +92,11 @@
   }
 
   .menu-list::-webkit-scrollbar {
-    display: none; /* Hilangkan scrollbar di Chrome/Safari */
+    display: none;
   }
 
   .menu-list-item {
-    flex: 0 0 auto; /* Biar item tidak mengecil */
+    flex: 0 0 auto; 
   }
 }
 

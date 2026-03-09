@@ -115,14 +115,14 @@
 
 .svg-badge {
   position: absolute;
-  top: -10px; /* keluar dari atas */
-  left: -20px; /* keluar dari kiri */
+  top: -10px; 
+  left: -20px; 
   width: 120px;
   height: 60px;
   z-index: 2;
   transform: rotate(-10deg);
   pointer-events: none;
-  background: transparent; /* pastikan tidak ada bg */
+  background: transparent;
 }
 
 .badge-svg {
@@ -155,7 +155,7 @@
     display: flex;
     flex-direction: row;
     gap: 15px;
-    flex-wrap: nowrap; /* biar horizontal */
+    flex-wrap: nowrap;
     overflow-x: auto;
     overflow-y: visible;
     -webkit-overflow-scrolling: touch;
@@ -170,16 +170,16 @@
   }
 
   .best-seller-item {
-    flex: 0 0 auto; /* lebar tetap */
+    flex: 0 0 auto;
     width: 200px;
-    overflow: visible; /* 🔹 Biar badge bisa keluar */
+    overflow: visible; 
     position: relative;
   }
 
   .best-seller img,
   .best-seller video,
   .media-wrapper {
-    height: 200px; /* tinggi lebih kecil di HP */
+    height: 200px;
   }
 
   .our-best-seller h1 {
@@ -191,12 +191,12 @@
   }
 
   .best-seller .desc {
-    max-width: 100%; /* biar teks muat */
+    max-width: 100%;
     font-size: 14px;
   }
 
   .svg-badge {
-    left: -15px; /* keluar dari kiri */
+    left: -15px;
     width: 110px;
     transform: rotate(-15deg);
   }

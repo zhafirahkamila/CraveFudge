@@ -6,7 +6,7 @@ import "../../styles/detail.css";
 import "../../styles/bestSellers.css";
 import { useEffect, useRef, useState } from "react";
 import Navbar from "../Navbar/Navbar";
-import Footer from "../Footer/footer";
+import Footer from "../Footer/Footer";
 
 const AllGallery = () => {
   const { slug } = useParams();
@@ -137,10 +137,10 @@ const AllGallery = () => {
           <h1>You may also like</h1>
           <div className="best-seller">
             {products
-              .filter((p) => p.slug !== slug) // tidak tampilkan produk yang sedang dibuka
-              .filter((p) => p.slug) // pastikan punya slug
-              .sort(() => Math.random() - 0.5) // acak
-              .slice(0, 3) // ambil 3
+              .filter((p) => p.slug !== slug) 
+              .filter((p) => p.slug) 
+              .sort(() => Math.random() - 0.5)
+              .slice(0, 3) 
               .map((item, index) => (
                 <div
                   className="best-seller-item"

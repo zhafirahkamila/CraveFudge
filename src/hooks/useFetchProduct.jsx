@@ -20,7 +20,6 @@ const useFetchProduct = () => {
         console.error("Gagal fetch products:", error);
         alert("Gagal mendapatkan data products");
       } finally {
-        // delay 3 detik sebelum loading selesai
         setTimeout(() => {
           setIsLoading(false);
         }, 1000);

@@ -22,13 +22,13 @@
   display: inline-block;
   margin-top: 40px;
   background-color: white;
-  color: var(--thirdColor); /* atau warna biru sesuai selera */
-  font-family: 'Courier New', Courier, monospace; /* atau font yang mirip */
+  color: var(--thirdColor); 
+  font-family: 'Courier New', Courier, monospace; 
   font-size: 18px;
   font-weight: bold;
   padding: 5px 15px;
-  transform: rotate(-5deg); /* miringkan */
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1); /* opsional: bayangan */
+  transform: rotate(-5deg); 
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1); 
   animation: wiggle 3s ease-in-out infinite;
 }
 

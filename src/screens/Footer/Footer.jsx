@@ -61,7 +61,7 @@ const Footer = () => {
           ))}
         </ul>
 
-        <p className="copyright">CraveFudge @ 2025</p>
+        <p className="copyright">CraveFudge @ 2026</p>
       </div>
     </footer>
   );

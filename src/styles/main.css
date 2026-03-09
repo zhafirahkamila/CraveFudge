@@ -220,7 +220,7 @@
   .navbar {
     padding: 20px 20px;
     display: grid;
-    grid-template-columns: auto 1fr auto; /* kiri - tengah - kanan */
+    grid-template-columns: auto 1fr auto; 
     align-items: center;
   }
 

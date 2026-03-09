@@ -9,8 +9,7 @@ const useFetchBestSeller = () => {
     const fetchBestSeller = async () => {
         try {
             const response = await axiosInstance.get("/best_seller");
-            // console.log("API response:", response.data);
-
+            
             if (Array.isArray(response.data?.payload?.datas)) {
                 setBestSellers(response.data.payload.datas);
             } else {

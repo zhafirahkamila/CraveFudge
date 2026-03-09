@@ -17,7 +17,7 @@ const OurMenu = () => {
         <h1>Our Menu</h1>
 
         {isLoading ? (
-          <p>Loading menus...</p> // bisa ganti spinner
+          <p>Loading menus...</p> 
         ) : (
           <div className="menu-list">
             {categories.map((category, idx) => (
