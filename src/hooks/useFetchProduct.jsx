@@ -10,6 +10,7 @@ const useFetchProduct = () => {
       try {
         const response = await axiosInstance.get("/products_type");
         console.log("API response: ", response.data);
+        console.log("Total products:", response.data?.payload?.datas?.length);
 
         if (Array.isArray(response.data?.payload?.datas)) {
           setProducts(response.data.payload.datas);

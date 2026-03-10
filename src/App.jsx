@@ -10,7 +10,7 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import AllMenu from "./screens/AllMenu/AllMenu";
-import AllGallery from "./screens/Detail/detail";
+import AllGallery from "./screens/Detail/Detail";
 import Footer from "./screens/Footer/Footer";
 import Signin from "./screens/SignIn/Signin";
 import Signup from "./screens/SignUp/signup";

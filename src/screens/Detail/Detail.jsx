@@ -1,15 +1,16 @@
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useNavigate, useParams } from "react-router-dom";
-import { products } from "../../assets/assets";
 import "../../styles/detail.css";
 import "../../styles/bestSellers.css";
 import { useEffect, useRef, useState } from "react";
 import Navbar from "../Navbar/Navbar";
 import Footer from "../Footer/Footer";
+import useFetchProduct from "../../hooks/useFetchProduct";
 
 const AllGallery = () => {
   const { slug } = useParams();
+  const { products, isLoading } = useFetchProduct();
   const item = products.find((product) => product.slug === slug);
   const [selesctedImg, setSelectedImg] = useState(0);
   const videoRef = useRef([]);
@@ -27,7 +28,7 @@ const AllGallery = () => {
 
   const handleMouseLeave = (index) => {
     const video = videoRef.current[index];
-    if (videoRef.current) {
+    if (video) {
       video.pause();
       video.currentTime = 0;
       video.style.display = "none";
@@ -40,6 +41,7 @@ const AllGallery = () => {
   }, [slug]);
 
   useEffect(() => {
+    if (isLoading) return;
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -49,7 +51,7 @@ const AllGallery = () => {
           }
         });
       },
-      { threshold: 0.1 }
+      { threshold: 0.1 },
     );
 
     itemRefs.current.forEach((el) => {
@@ -57,10 +59,12 @@ const AllGallery = () => {
     });
 
     return () => observer.disconnect();
-  }, []);
+  }, [isLoading]);
 
+  if (isLoading) return <p>Loading...</p>;
   if (!item) return <div>Product not found</div>;
 
+  const prices = JSON.parse(item.prices);
   const galleryImg = [
     item.img,
     item.thumbnail1,
@@ -69,7 +73,7 @@ const AllGallery = () => {
   ].filter(Boolean);
 
   const prevSlide = () => {
-    setSelectedImg((prev) => (prev == 0 ? galleryImg.length - 1 : prev - 1));
+    setSelectedImg((prev) => (prev === 0 ? galleryImg.length - 1 : prev - 1));
   };
 
   const nextSlide = () => {
@@ -107,11 +111,12 @@ const AllGallery = () => {
             </button>
           </div>
         </div>
+
         <div className="detail-content">
           <h2>{item.title}</h2>
           <p className="desc">{item.descDetail}</p>
           <div className="content-price">
-            {item.prices.map((entry, idx) => (
+            {prices.map((entry, idx) => (
               <div className="price-pair" key={idx}>
                 <div className="container-price">
                   <span className="price-label">Size:</span>
@@ -124,7 +129,7 @@ const AllGallery = () => {
                       style: "currency",
                       currency: "IDR",
                       minimumFractionDigits: 0,
-                    }).format(entry.price)}
+                    }).format(Number(entry.price))}
                   </span>
                 </div>
               </div>
@@ -132,15 +137,16 @@ const AllGallery = () => {
           </div>
         </div>
       </div>
+
       <div className="container-also-like">
         <div className="our-best-seller">
           <h1>You may also like</h1>
           <div className="best-seller">
             {products
-              .filter((p) => p.slug !== slug) 
-              .filter((p) => p.slug) 
+              .filter((p) => p.slug !== slug)
+              .filter((p) => p.slug)
               .sort(() => Math.random() - 0.5)
-              .slice(0, 3) 
+              .slice(0, 3)
               .map((item, index) => (
                 <div
                   className="best-seller-item"
@@ -164,7 +170,7 @@ const AllGallery = () => {
                       playsInline
                       style={{ display: "none" }}
                     />
-                    {item.slug && item.type && (
+                    {item.type && (
                       <div className="svg-badge">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
