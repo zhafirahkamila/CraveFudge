@@ -7,7 +7,6 @@ import Navbar from "../Navbar/Navbar";
 import Footer from "../Footer/Footer";
 import useFetchProduct from "../../hooks/useFetchProduct";
 import { useCart } from "../../context/CartContext";
-import { useAuth } from "../../context/AuthContext";
 
 const categoryMap = {
   brownies: 1,
@@ -29,8 +28,7 @@ const AllMenu = () => {
   const navigate = useNavigate();
   const { category } = useParams();
   const { products, isLoading } = useFetchProduct();
-  const { addItem, openCart } = useCart();
-  const { requireAuth } = useAuth();
+  const { addItem } = useCart();
 
   const filteredProducts = products.filter(
     (product) => product.category_id === categoryMap[category]
@@ -76,24 +74,15 @@ const AllMenu = () => {
                   onAddToCart={
                     firstPrice
                       ? () =>
-                          requireAuth(
-                            () => {
-                              addItem({
-                                id: product.id,
-                                slug: product.slug,
-                                title: product.title,
-                                img: product.img,
-                                size: firstPrice.size,
-                                price: Number(firstPrice.price),
-                                qty: 1,
-                              });
-                              openCart();
-                            },
-                            {
-                              intent: "add_to_cart",
-                              message: "Please sign in to add items to your cart.",
-                            },
-                          )
+                          addItem({
+                            id: product.id,
+                            slug: product.slug,
+                            title: product.title,
+                            img: product.img,
+                            size: firstPrice.size,
+                            price: Number(firstPrice.price),
+                            qty: 1,
+                          })
                       : undefined
                   }
                 />

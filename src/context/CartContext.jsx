@@ -8,7 +8,6 @@ import {
   useState,
 } from "react";
 import { useAuth } from "./AuthContext";
-import { useToast } from "./ToastContext";
 
 const STORAGE_PREFIX = "cravefudge_cart";
 
@@ -47,8 +46,7 @@ const lineKey = (id, size) => `${id}__${size}`;
 const CartContext = createContext(null);
 
 export const CartProvider = ({ children }) => {
-  const { user } = useAuth();
-  const { showToast } = useToast();
+  const { user, requireAuth } = useAuth();
   const storageKey = storageKeyFor(user);
 
   const [items, setItems] = useState(() => readStoredItems(storageKey));
@@ -78,30 +76,35 @@ export const CartProvider = ({ children }) => {
 
   const addItem = useCallback(
     (incoming) => {
-      if (!user) {
-        showToast("Please sign in to add items to your cart.", { variant: "info" });
-        return;
-      }
-      if (!incoming || incoming.id == null || !incoming.size) return;
-      const normalized = {
-        id: incoming.id,
-        slug: incoming.slug ?? "",
-        title: incoming.title ?? "",
-        img: incoming.img ?? "",
-        size: String(incoming.size),
-        price: Number(incoming.price) || 0,
-        qty: Math.max(1, Number(incoming.qty) || 1),
-      };
-      setItems((prev) => {
-        const key = lineKey(normalized.id, normalized.size);
-        const idx = prev.findIndex((row) => lineKey(row.id, row.size) === key);
-        if (idx === -1) return [...prev, normalized];
-        const next = prev.slice();
-        next[idx] = { ...next[idx], qty: next[idx].qty + normalized.qty };
-        return next;
-      });
+      if (!incoming || incoming.id == null || !incoming.size) return false;
+      return requireAuth(
+        () => {
+          const normalized = {
+            id: incoming.id,
+            slug: incoming.slug ?? "",
+            title: incoming.title ?? "",
+            img: incoming.img ?? "",
+            size: String(incoming.size),
+            price: Number(incoming.price) || 0,
+            qty: Math.max(1, Number(incoming.qty) || 1),
+          };
+          setItems((prev) => {
+            const key = lineKey(normalized.id, normalized.size);
+            const idx = prev.findIndex((row) => lineKey(row.id, row.size) === key);
+            if (idx === -1) return [...prev, normalized];
+            const next = prev.slice();
+            next[idx] = { ...next[idx], qty: next[idx].qty + normalized.qty };
+            return next;
+          });
+          setIsCartOpen(true);
+        },
+        {
+          intent: "add_to_cart",
+          message: "Please sign in to add items to your cart.",
+        },
+      );
     },
-    [user, showToast],
+    [requireAuth],
   );
 
   const removeItem = useCallback((id, size) => {

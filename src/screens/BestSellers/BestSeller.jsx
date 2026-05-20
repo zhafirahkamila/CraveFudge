@@ -5,7 +5,6 @@ import "../../styles/productCard.css";
 import { useNavigate } from "react-router-dom";
 import useFetchBestSeller from "../../hooks/useFetchBestSeller";
 import { useCart } from "../../context/CartContext";
-import { useAuth } from "../../context/AuthContext";
 
 const parsePrices = (raw) => {
   if (!raw) return [];
@@ -20,8 +19,7 @@ const parsePrices = (raw) => {
 const BestSeller = () => {
   const navigate = useNavigate();
   const { bestSellers, isLoading } = useFetchBestSeller();
-  const { addItem, openCart } = useCart();
-  const { requireAuth } = useAuth();
+  const { addItem } = useCart();
   const videoRef = useRef([]);
   const itemRefs = useRef([]);
 
@@ -124,24 +122,15 @@ const BestSeller = () => {
                         aria-label={`Add ${item.title} to cart`}
                         onClick={(e) => {
                           e.stopPropagation();
-                          requireAuth(
-                            () => {
-                              addItem({
-                                id: item.id,
-                                slug: item.slug,
-                                title: item.title,
-                                img: item.img,
-                                size: firstPrice.size,
-                                price: Number(firstPrice.price),
-                                qty: 1,
-                              });
-                              openCart();
-                            },
-                            {
-                              intent: "add_to_cart",
-                              message: "Please sign in to add items to your cart.",
-                            },
-                          );
+                          addItem({
+                            id: item.id,
+                            slug: item.slug,
+                            title: item.title,
+                            img: item.img,
+                            size: firstPrice.size,
+                            price: Number(firstPrice.price),
+                            qty: 1,
+                          });
                         }}
                       >
                         <FaPlus />

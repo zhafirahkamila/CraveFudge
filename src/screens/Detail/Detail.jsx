@@ -9,7 +9,6 @@ import Navbar from "../Navbar/Navbar";
 import Footer from "../Footer/Footer";
 import useFetchProduct from "../../hooks/useFetchProduct";
 import { useCart } from "../../context/CartContext";
-import { useAuth } from "../../context/AuthContext";
 import { formatIDR } from "../../lib/formatCurrency";
 
 const parsePrices = (raw) => {
@@ -31,8 +30,7 @@ const AllGallery = () => {
   const videoRef = useRef([]);
   const itemRefs = useRef([]);
   const navigate = useNavigate();
-  const { addItem, openCart } = useCart();
-  const { requireAuth } = useAuth();
+  const { addItem } = useCart();
 
   const handleMouseEnter = (index) => {
     const video = videoRef.current[index];
@@ -104,21 +102,15 @@ const AllGallery = () => {
 
   const handleAddToCart = () => {
     if (!selectedSize) return;
-    requireAuth(
-      () => {
-        addItem({
-          id: item.id,
-          slug: item.slug,
-          title: item.title,
-          img: item.img,
-          size: selectedSize.size,
-          price: Number(selectedSize.price),
-          qty,
-        });
-        openCart();
-      },
-      { intent: "add_to_cart", message: "Please sign in to add items to your cart." },
-    );
+    addItem({
+      id: item.id,
+      slug: item.slug,
+      title: item.title,
+      img: item.img,
+      size: selectedSize.size,
+      price: Number(selectedSize.price),
+      qty,
+    });
   };
 
   return (
