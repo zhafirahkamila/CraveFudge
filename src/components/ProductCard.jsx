@@ -1,7 +1,8 @@
 import React from "react";
+import { FaPlus } from "react-icons/fa";
 import "../styles/productCard.css";
 
-const ProductCard = ({ image, title, price, badges }) => {
+const ProductCard = ({ image, title, price, badges, onAddToCart }) => {
   return (
     <div className="product-card">
       <div className="image-container">
@@ -16,6 +17,19 @@ const ProductCard = ({ image, title, price, badges }) => {
             </span>
           ))}
         </div>
+        {onAddToCart && (
+          <button
+            type="button"
+            className="quick-add-btn"
+            aria-label={`Add ${title} to cart`}
+            onClick={(e) => {
+              e.stopPropagation();
+              onAddToCart();
+            }}
+          >
+            <FaPlus />
+          </button>
+        )}
       </div>
       <div className="product-info">
         <h3>{title}</h3>

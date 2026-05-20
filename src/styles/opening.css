@@ -1,76 +1,71 @@
-@import url('https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&family=Calistoga&family=Cinzel:wght@400..900&family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=Federo&family=Forum&family=Linden+Hill:ital@0;1&family=Luckiest+Guy&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
-
-:root{
-    --mainColor: #FFFAF1;
-    --secondColor: #0E366D;
-    --hover: #cee2fe;
-    --thirdColor: #850E35;
-    --forthColor: #A60E13;
-    --fifthColor: #F2D0CD;
-    --white: #ffffff;
-}
-
 .title-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
   flex-direction: column;
+  padding: clamp(2rem, 6vw, 4rem) clamp(1rem, 4vw, 3rem) clamp(1rem, 4vw, 2rem);
+  position: relative;
 }
 
 .angled-label {
+  position: relative;
   display: inline-block;
-  margin-top: 40px;
-  background-color: white;
-  color: var(--thirdColor); 
-  font-family: 'Courier New', Courier, monospace; 
-  font-size: 18px;
+  margin-top: var(--space-4);
+  background-color: var(--white);
+  color: var(--thirdColor);
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 16px;
   font-weight: bold;
-  padding: 5px 15px;
-  transform: rotate(-5deg); 
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1); 
+  letter-spacing: 0.02em;
+  padding: 6px 18px;
+  border-radius: var(--radius-sm);
+  transform: rotate(-5deg);
+  box-shadow: var(--shadow-sm);
   animation: wiggle 3s ease-in-out infinite;
 }
 
-.cookie-img {
+.cookie-img,
+.cookie-img2 {
   position: absolute;
-  top: -20px;
-  right: -20px;
   width: 40px;
   height: auto;
-  animation: slideIn 1s ease-out forwards, slowRotate 10s linear infinite;
-  z-index: -1;
+  pointer-events: none;
+  z-index: 0;
   background-color: transparent;
   animation: slideIn 1s ease-out forwards, slowRotate 10s linear infinite;
 }
+
+.cookie-img {
+  top: -22px;
+  right: -22px;
+}
+
 .cookie-img2 {
-  position: absolute;
-  bottom: -20px;
-  left: -20px;
-  width: 40px;
-  height: auto;
-  animation: slideIn 1s ease-out forwards, slowRotate 10s linear infinite;
-  z-index: -1;
-  background-color: transparent;
-  animation: slideIn 1s ease-out forwards, slowRotate 10s linear infinite;
+  bottom: -22px;
+  left: -22px;
 }
 
 .title {
-    margin-top: 40px;
-    font-weight: 500;
-    font-size: 45px;
-    max-width: 700px;
-    color: var(--secondColor);
-    font-family: "Afacad Flux", sans-serif;
+  margin-top: var(--space-8);
+  font-weight: 500;
+  font-size: var(--fs-hero);
+  max-width: 760px;
+  color: var(--secondColor);
+  font-family: var(--font-hero);
+  line-height: var(--lh-tight);
+  letter-spacing: -0.01em;
 }
 
 .sub-title {
-  margin-top: 16px;
-  font-size: 18px;
-  max-width: 550px;
+  margin-top: var(--space-4);
+  font-size: clamp(1rem, 1.6vw, 1.125rem);
+  max-width: 620px;
   color: var(--secondColor);
-  line-height: 1.6;
-  font-family: "Afacad Flux", sans-serif;
+  line-height: var(--lh-relaxed);
+  font-family: var(--font-hero);
+  font-weight: 400;
+  opacity: 0.88;
 }
 
 @keyframes wiggle {
@@ -82,27 +77,9 @@
   }
 }
 
-@keyframes float-cookie {
-  0%, 100% {
-    transform: translateX(0px);
-  }
-  50% {
-    transform: translateX(5px);
-  }
-}
-
-@keyframes bounce-cookie {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-5px);
-  }
-}
-
 @keyframes slideIn {
   0% {
-    transform: translateX(100px);
+    transform: translateX(80px);
     opacity: 0;
   }
   100% {
@@ -111,7 +88,6 @@
   }
 }
 
-/* Rotasi pelan */
 @keyframes slowRotate {
   0% {
     transform: rotate(0deg);
@@ -122,37 +98,18 @@
 }
 
 /* Media Queries */
-@media (max-width: 1024px) {
-  .title {
-    font-size: 35px;
-    max-width: 500px;
+@media (max-width: 640px) {
+  .title-wrapper {
+    padding-top: clamp(1.5rem, 6vw, 3rem);
   }
 
-  .sub-title {
-    max-width: 500px;
-  }
-}
-
-@media (max-width: 465px) {
-  .title {
-    font-size: 25px;
-    max-width: 350px;
+  .angled-label {
+    font-size: 14px;
+    padding: 5px 14px;
   }
 
-  .sub-title {
-    font-size: 15px;
-    max-width: 350px;
-  }
-}
-
-@media (max-width: 480px) {
-  .title {
-    font-size: 28px;
-    max-width: 400px;
-  }
-
-  .sub-title {
-    font-size: 15px;
-    max-width: 380px;
+  .cookie-img,
+  .cookie-img2 {
+    width: 32px;
   }
 }

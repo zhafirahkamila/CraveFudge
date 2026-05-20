@@ -1,129 +1,202 @@
-@import url('https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&family=Calistoga&family=Cinzel:wght@400..900&family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=Federo&family=Forum&family=Linden+Hill:ital@0;1&family=Luckiest+Guy&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
-
-:root{
-    --mainColor: #FFFAF1;
-    --secondColor: #0E366D;
-    --hover: #cee2fe;
-    --thirdColor: #850E35;
-    --forthColor: #A60E13;
-    --fifthColor: #F2D0CD;
-    --white: #ffffff;
-}
-
 .Container {
-    background-color: var(--mainColor);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+  background-color: var(--mainColor);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .login-main {
-    flex: 1; 
-    display: flex;
-    flex-direction: column;
-    justify-content: center; 
-    align-items: center; 
-    text-align: center;
-    padding: 15px;  
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: clamp(1.5rem, 5vw, 3rem) var(--space-4);
+  gap: var(--space-2);
 }
 
-
 .login-main h1 {
-    font-size: 50px;
-    font-weight: 600;
-    color: var(--secondColor);
-    font-family: Calistago;
-    margin-bottom: 35px;
-    line-height: 1.2;
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 600;
+  color: var(--secondColor);
+  font-family: var(--font-display);
+  margin-bottom: var(--space-6);
+  line-height: var(--lh-tight);
+  letter-spacing: -0.01em;
 }
 
 .form {
-    width: 100%;
-    max-width: 400px; 
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
 }
 
 .form .input-box {
-    width: 100%;
-    margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  width: 100%;
+  gap: 6px;
+}
+
+.form .input-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--secondColor);
+  font-family: var(--font-body);
+  letter-spacing: 0.02em;
 }
 
 .form .input-box input {
-    position: relative;
-    height: 50px;
-    width: 100%;
-    outline: none;
-    font-size: 15px;
-    margin-top: 8px;
-    border: 1px solid var(--secondColor);
-    border-radius: 10px;
-    padding: 0 15px;
-    appearance: none; 
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    background-color: var(--white);
+  height: 50px;
+  width: 100%;
+  outline: none;
+  font-size: 0.95rem;
+  border: 1.5px solid rgba(14, 54, 109, 0.2);
+  border-radius: var(--radius-md);
+  padding: 0 16px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: var(--white);
+  color: var(--secondColor);
+  font-family: var(--font-body);
+  transition: border-color var(--dur-base) var(--ease-out),
+    box-shadow var(--dur-base) var(--ease-out);
+}
+
+.form .input-box input::placeholder {
+  color: rgba(14, 54, 109, 0.4);
+}
+
+.form .input-box input:hover {
+  border-color: rgba(14, 54, 109, 0.4);
+}
+
+.form .input-box input:focus {
+  border-color: var(--secondColor);
+  box-shadow: var(--shadow-focus);
 }
 
 .forgot-password {
-    text-align: left;
-    margin-top: 10px;
+  text-align: right;
+  margin-top: var(--space-1);
 }
 
 .forgot-password a {
-    font-size: 14px;
-    color: var(--secondColor);
-    text-decoration: underline;
+  font-size: 0.875rem;
+  color: var(--secondColor);
+  font-weight: 500;
+  transition: color var(--dur-base) var(--ease-out);
 }
 
 .forgot-password a:hover {
-    color: #002080;
-    text-decoration: 2px underline;
+  color: var(--thirdColor);
+  text-decoration: underline;
 }
 
 .signin-btn {
-    margin-top: 50px;
-    background-color: var(--secondColor);
-    color: white;
-    border: none;
-    padding: 15px;
-    width: 50%;
-    border-radius: 10px;
-    font-size: 16px;
-    cursor: pointer;
+  margin-top: var(--space-5);
+  background-color: var(--secondColor);
+  color: var(--white);
+  border: none;
+  padding: 14px 20px;
+  width: 100%;
+  border-radius: var(--radius-pill);
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: var(--font-display);
+  cursor: pointer;
+  letter-spacing: 0.02em;
+  box-shadow: var(--shadow-sm);
+  transition: background-color var(--dur-base) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-base) var(--ease-out);
 }
 
 .signin-btn:hover {
-    background-color: #002080;
+  background-color: #002080;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.signin-btn:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm);
+}
+
+.signin-btn:focus-visible {
+  box-shadow: var(--shadow-focus);
+}
+
+.signin-btn[disabled],
+.signin-btn:disabled {
+  background-color: var(--secondColor);
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: var(--shadow-xs);
+}
+
+.form-error {
+  background-color: rgba(166, 14, 19, 0.08);
+  border: 1px solid rgba(166, 14, 19, 0.28);
+  color: var(--forthColor);
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  font-family: var(--font-body);
+  text-align: left;
+  line-height: var(--lh-normal);
+}
+
+.form .input-box input:disabled {
+  background-color: rgba(14, 54, 109, 0.04);
+  cursor: not-allowed;
+}
+
+.password-notice {
+  background-color: rgba(14, 54, 109, 0.06);
+  border: 1px solid rgba(14, 54, 109, 0.14);
+  color: var(--secondColor);
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  font-family: var(--font-body);
+  text-align: left;
+  line-height: var(--lh-normal);
 }
 
 .create-account {
-    margin-top: 15px;
+  margin-top: var(--space-4);
+  font-size: 0.9rem;
+  color: rgba(14, 54, 109, 0.78);
+  font-family: var(--font-body);
 }
 
 .create-account a {
-    font-size: 14px;
-    color: var(--secondColor);
-    text-decoration: underline;
+  color: var(--secondColor);
+  font-weight: 600;
+  margin-left: 4px;
+  transition: color var(--dur-base) var(--ease-out);
 }
 
 .create-account a:hover {
-    color: #002080;
-    text-decoration: 2px underline;
+  color: var(--thirdColor);
+  text-decoration: underline;
 }
 
 /* Media Queries */
 @media (max-width: 768px) {
-    .form {
-        width: 100%;
-        max-width: 390px; 
-    }
- 
-    .signin-btn {
-        width: 50%; 
-        font-size: 15px;
-        padding: 12px;
-    }
+  .form {
+    max-width: 100%;
+  }
 
-    .create-account {
-        margin-top: 10px;
-    }
+  .signin-btn {
+    font-size: 0.95rem;
+    padding: 12px 18px;
+  }
 }

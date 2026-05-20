@@ -4,18 +4,35 @@ import { useNavigate, useParams } from "react-router-dom";
 import "../../styles/detail.css";
 import "../../styles/bestSellers.css";
 import { useEffect, useRef, useState } from "react";
+import { FaPlus, FaMinus, FaShoppingCart } from "react-icons/fa";
 import Navbar from "../Navbar/Navbar";
 import Footer from "../Footer/Footer";
 import useFetchProduct from "../../hooks/useFetchProduct";
+import { useCart } from "../../context/CartContext";
+import { useAuth } from "../../context/AuthContext";
+import { formatIDR } from "../../lib/formatCurrency";
+
+const parsePrices = (raw) => {
+  try {
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+};
 
 const AllGallery = () => {
   const { slug } = useParams();
   const { products, isLoading } = useFetchProduct();
   const item = products.find((product) => product.slug === slug);
   const [selesctedImg, setSelectedImg] = useState(0);
+  const [sizeIdx, setSizeIdx] = useState(0);
+  const [qty, setQty] = useState(1);
   const videoRef = useRef([]);
   const itemRefs = useRef([]);
   const navigate = useNavigate();
+  const { addItem, openCart } = useCart();
+  const { requireAuth } = useAuth();
 
   const handleMouseEnter = (index) => {
     const video = videoRef.current[index];
@@ -38,6 +55,8 @@ const AllGallery = () => {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
     setSelectedImg(0);
+    setSizeIdx(0);
+    setQty(1);
   }, [slug]);
 
   useEffect(() => {
@@ -64,7 +83,10 @@ const AllGallery = () => {
   if (isLoading) return <p>Loading...</p>;
   if (!item) return <div>Product not found</div>;
 
-  const prices = JSON.parse(item.prices);
+  const prices = parsePrices(item.prices);
+  const safeSizeIdx = Math.min(sizeIdx, Math.max(0, prices.length - 1));
+  const selectedSize = prices[safeSizeIdx];
+
   const galleryImg = [
     item.img,
     item.thumbnail1,
@@ -78,6 +100,25 @@ const AllGallery = () => {
 
   const nextSlide = () => {
     setSelectedImg((prev) => (prev === galleryImg.length - 1 ? 0 : prev + 1));
+  };
+
+  const handleAddToCart = () => {
+    if (!selectedSize) return;
+    requireAuth(
+      () => {
+        addItem({
+          id: item.id,
+          slug: item.slug,
+          title: item.title,
+          img: item.img,
+          size: selectedSize.size,
+          price: Number(selectedSize.price),
+          qty,
+        });
+        openCart();
+      },
+      { intent: "add_to_cart", message: "Please sign in to add items to your cart." },
+    );
   };
 
   return (
@@ -115,26 +156,65 @@ const AllGallery = () => {
         <div className="detail-content">
           <h2>{item.title}</h2>
           <p className="desc">{item.descDetail}</p>
-          <div className="content-price">
-            {prices.map((entry, idx) => (
-              <div className="price-pair" key={idx}>
-                <div className="container-price">
-                  <span className="price-label">Size:</span>
-                  <span className="price-value">{entry.size}</span>
-                </div>
-                <div className="container-price">
-                  <span className="price-label">Price:</span>
-                  <span className="price-value">
-                    {new Intl.NumberFormat("id-ID", {
-                      style: "currency",
-                      currency: "IDR",
-                      minimumFractionDigits: 0,
-                    }).format(Number(entry.price))}
-                  </span>
+
+          {prices.length > 0 ? (
+            <>
+              <div className="size-selector" role="radiogroup" aria-label="Select a size">
+                <span className="size-selector-label">Size</span>
+                <div className="size-chip-group">
+                  {prices.map((entry, idx) => (
+                    <button
+                      key={idx}
+                      type="button"
+                      role="radio"
+                      aria-checked={idx === safeSizeIdx}
+                      className={`size-chip ${idx === safeSizeIdx ? "active" : ""}`}
+                      onClick={() => setSizeIdx(idx)}
+                    >
+                      <span className="size-chip-size">{entry.size}</span>
+                      <span className="size-chip-price">{formatIDR(entry.price)}</span>
+                    </button>
+                  ))}
                 </div>
               </div>
-            ))}
-          </div>
+
+              <div className="qty-row">
+                <span className="qty-row-label">Quantity</span>
+                <div className="qty-stepper" role="group" aria-label="Quantity">
+                  <button
+                    type="button"
+                    onClick={() => setQty((q) => Math.max(1, q - 1))}
+                    disabled={qty <= 1}
+                    aria-label="Decrease quantity"
+                  >
+                    <FaMinus />
+                  </button>
+                  <span className="qty-stepper-value">{qty}</span>
+                  <button
+                    type="button"
+                    onClick={() => setQty((q) => q + 1)}
+                    aria-label="Increase quantity"
+                  >
+                    <FaPlus />
+                  </button>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                className="add-to-cart-btn"
+                onClick={handleAddToCart}
+                disabled={!selectedSize}
+              >
+                <FaShoppingCart aria-hidden="true" />
+                <span>
+                  Add to Cart · {formatIDR((selectedSize?.price ?? 0) * qty)}
+                </span>
+              </button>
+            </>
+          ) : (
+            <p className="desc">Pricing unavailable for this product.</p>
+          )}
         </div>
       </div>
 

@@ -2,23 +2,30 @@ import React from "react";
 import "../styles/main.css";
 import { FaTimes } from "react-icons/fa";
 
-const ResponsiveMenu = ({ open, setOpen, menu, handleClick }) => {
+const ResponsiveMenu = ({
+  open,
+  setOpen,
+  menu,
+  handleClick,
+  isAuthenticated = false,
+  user = null,
+  onSignInClick,
+  onProfileClick,
+  onLogoutClick,
+}) => {
+  const displayName =
+    user?.full_name || user?.name || user?.email || user?.phone_number || "";
 
   return (
     <div className={`responsive-menu ${open ? "show" : ""}`}>
-      {/* <FaTimes className="close-icon" onClick={() => setOpen(false)} /> */}
-      {/* <div className="responsive-header">
-        <img
-          src="/src/assets/logoCrave.png"
-          alt="Logo"
-          className="responsive-logo"
-          onClick={() => {
-            navigate("/");
-            setOpen(false);
-          }}
-        />
-        <FaTimes className="close-icon" onClick={() => setOpen(false)} />
-      </div> */}
+      <button
+        type="button"
+        className="close-icon"
+        aria-label="Close menu"
+        onClick={() => setOpen(false)}
+      >
+        <FaTimes />
+      </button>
 
       <ul>
         <li
@@ -58,7 +65,38 @@ const ResponsiveMenu = ({ open, setOpen, menu, handleClick }) => {
           Savory
         </li>
       </ul>
-      <button className="sign-btn-responsive">Sign in</button>
+
+      {isAuthenticated ? (
+        <>
+          {displayName && (
+            <p className="responsive-user">Signed in as {displayName}</p>
+          )}
+          {onProfileClick && (
+            <button
+              type="button"
+              className="sign-btn-responsive sign-btn-responsive-secondary"
+              onClick={onProfileClick}
+            >
+              Profile
+            </button>
+          )}
+          <button
+            type="button"
+            className="sign-btn-responsive"
+            onClick={onLogoutClick}
+          >
+            Logout
+          </button>
+        </>
+      ) : (
+        <button
+          type="button"
+          className="sign-btn-responsive"
+          onClick={onSignInClick}
+        >
+          Sign in
+        </button>
+      )}
     </div>
   );
 };

@@ -15,6 +15,9 @@ import Footer from "./screens/Footer/Footer";
 import Signin from "./screens/SignIn/Signin";
 import Signup from "./screens/SignUp/signup";
 import ForgotPassword from "./screens/forgotPass/forgotPassword";
+import Profile from "./screens/Profile/Profile";
+import CartDrawer from "./components/CartDrawer";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function HomePage() {
   const [category, setCategory] = useState("All");
@@ -33,14 +36,25 @@ function HomePage() {
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/product/:slug" element={<AllGallery />} />
-      <Route path="/menu/:category" element={<AllMenu />} />
-      <Route path="/signin" element={<Signin />} />
-      <Route path="/signup" element={<Signup />} />
-      <Route path="/forgot-password" element={<ForgotPassword />} />
-    </Routes>
+    <>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/product/:slug" element={<AllGallery />} />
+        <Route path="/menu/:category" element={<AllMenu />} />
+        <Route path="/signin" element={<Signin />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
+      <CartDrawer />
+    </>
   );
 }
 

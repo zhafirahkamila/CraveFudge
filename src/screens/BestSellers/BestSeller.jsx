@@ -1,11 +1,27 @@
 import React, { useEffect, useRef } from "react";
+import { FaPlus } from "react-icons/fa";
 import "../../styles/bestSellers.css";
+import "../../styles/productCard.css";
 import { useNavigate } from "react-router-dom";
 import useFetchBestSeller from "../../hooks/useFetchBestSeller";
+import { useCart } from "../../context/CartContext";
+import { useAuth } from "../../context/AuthContext";
+
+const parsePrices = (raw) => {
+  if (!raw) return [];
+  try {
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+};
 
 const BestSeller = () => {
   const navigate = useNavigate();
   const { bestSellers, isLoading } = useFetchBestSeller();
+  const { addItem, openCart } = useCart();
+  const { requireAuth } = useAuth();
   const videoRef = useRef([]);
   const itemRefs = useRef([]);
 
@@ -46,7 +62,7 @@ const BestSeller = () => {
     });
 
     return () => observer.disconnect();
-  }, [isLoading]); 
+  }, [isLoading]);
 
   return (
     <div>
@@ -57,52 +73,86 @@ const BestSeller = () => {
           <p>Loading Best Seller...</p>
         ) : (
           <div className="best-seller">
-            {bestSellers.map((item, index) => (
-              <div
-                className="best-seller-item"
-                key={item.id}
-                onClick={() => navigate(`/product/${item.slug}`)}
-                ref={(el) => (itemRefs.current[index] = el)}
-                style={{ transitionDelay: `${index * 100}ms` }}
-              >
+            {bestSellers.map((item, index) => {
+              const prices = parsePrices(item.prices);
+              const firstPrice = prices[0];
+              return (
                 <div
-                  className="media-wrapper"
-                  onMouseEnter={() => handleMouseEnter(index)}
-                  onMouseLeave={() => handleMouseLeave(index)}
+                  className="best-seller-item"
+                  key={item.id}
+                  onClick={() => navigate(`/product/${item.slug}`)}
+                  ref={(el) => (itemRefs.current[index] = el)}
+                  style={{ transitionDelay: `${index * 100}ms` }}
                 >
-                  <img src={item.img} alt={item.title} />
-                  <video
-                    ref={(el) => (videoRef.current[index] = el)}
-                    src={item.video}
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    style={{ display: "none" }}
-                  />
-                  <div className="svg-badge">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="badge-svg"
-                      width="981"
-                      height="479"
-                      viewBox="0 0 981 479"
-                      fill="none"
-                    >
-                      <path
-                        d="M 7.71465 358.314 C 95.7118 578.371 941.269 464.831 977.05 260.575 C 1033.44 -61.3175 264.097 -32.0546 154.442 73.2922 C 150.38 77.1939 151.045 84.4012 154.442 82.8514 C 451.603 -52.7337 992.854 32.9095 947.002 260.575 C 894.125 434.007 27.8116 558.082 24.2994 319.296 C 21.9869 162.074 409.848 13.9859 690.425 61.1967 C 698.815 59.2458 692.21 50.7152 683.01 48.9061 C 382.142 -1.47829 -58.694 148.36 7.71465 358.314 Z"
-                        stroke="#A60E13"
-                        strokeWidth="8"
+                  <div
+                    className="media-wrapper"
+                    onMouseEnter={() => handleMouseEnter(index)}
+                    onMouseLeave={() => handleMouseLeave(index)}
+                  >
+                    <img src={item.img} alt={item.title} />
+                    <video
+                      ref={(el) => (videoRef.current[index] = el)}
+                      src={item.video}
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      style={{ display: "none" }}
+                    />
+                    <div className="svg-badge">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="badge-svg"
+                        width="981"
+                        height="479"
+                        viewBox="0 0 981 479"
                         fill="none"
-                      />
-                    </svg>
-                    <p className="best-seller-text">{item.type}</p>
+                      >
+                        <path
+                          d="M 7.71465 358.314 C 95.7118 578.371 941.269 464.831 977.05 260.575 C 1033.44 -61.3175 264.097 -32.0546 154.442 73.2922 C 150.38 77.1939 151.045 84.4012 154.442 82.8514 C 451.603 -52.7337 992.854 32.9095 947.002 260.575 C 894.125 434.007 27.8116 558.082 24.2994 319.296 C 21.9869 162.074 409.848 13.9859 690.425 61.1967 C 698.815 59.2458 692.21 50.7152 683.01 48.9061 C 382.142 -1.47829 -58.694 148.36 7.71465 358.314 Z"
+                          stroke="#A60E13"
+                          strokeWidth="8"
+                          fill="none"
+                        />
+                      </svg>
+                      <p className="best-seller-text">{item.type}</p>
+                    </div>
+                    {firstPrice && (
+                      <button
+                        type="button"
+                        className="quick-add-btn best-seller-add"
+                        aria-label={`Add ${item.title} to cart`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          requireAuth(
+                            () => {
+                              addItem({
+                                id: item.id,
+                                slug: item.slug,
+                                title: item.title,
+                                img: item.img,
+                                size: firstPrice.size,
+                                price: Number(firstPrice.price),
+                                qty: 1,
+                              });
+                              openCart();
+                            },
+                            {
+                              intent: "add_to_cart",
+                              message: "Please sign in to add items to your cart.",
+                            },
+                          );
+                        }}
+                      >
+                        <FaPlus />
+                      </button>
+                    )}
                   </div>
+                  <h3>{item.title}</h3>
+                  <p className="desc">{item.desc}</p>
                 </div>
-                <h3>{item.title}</h3>
-                <p className="desc">{item.desc}</p>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </div>
